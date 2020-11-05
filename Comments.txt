@@ -1,0 +1,29 @@
+Comments:
+
+
+1- In TasksController, you need to return the view model not model in all APIs. (the same you did in TasksVMController) and delete the TasksVMController, we don't need it. 
+
+
+2- In the API you get all tasks, rename it to GetAll() the same name as the repository. 
+
+3- In the Put API, we don't need to pass two paramters ( id, and Task object) , pass only the task object and make it's type TaskViewModel (Not Task). 
+
+4- In Put API, return the updated object instead of NoContent(). 
+
+5- In the Post API, pass the object as type TaskViewModel, same as comment 3. 
+
+6- In Delete API, we don't have to return the object, return NoContent() or return message "Object Deleted Successfully". 
+
+7- In Data Folder, do you need the file TaskManagmentSystemContext.cs ? is it used in the project ?
+
+8- In Repository Folder, you have unused File named "TasksRepository" please delete it. 
+
+9- change the abstract class to a normal class and rename the file ASTasksRespository to TasksRepository. 
+
+10- You need to make an Interface named ITasksRepository which inherits from IRepository. The reasoj for this is that IRepository will be used for all repositores and 
+when we need to create a new repository method in Tasks repository , it's prototype must be declared in ITasksRepository not IRepository. Please let's have a chat if you didn't
+understand this idea well. 
+
+11- Please rename the file TasksProfile to TaskManagmentSystemMappingProfile, so it will be clearer and reflects it's contents. 
+
+12- delete the file WeatherForcast.cs, we don't need it. 
