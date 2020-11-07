@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TaskManagmentSystem.Models;
 using TaskManagmentSystem.Repository;
+using TaskManagmentSystem.ViewModels;
 
 namespace TaskManagmentSystem.Controllers
 {
@@ -12,61 +14,79 @@ namespace TaskManagmentSystem.Controllers
     [ApiController]
     public class TasksController : ControllerBase
     {
-        private readonly TasksRepository repository;
+        private readonly TasksRepository _repository;
+        private readonly IMapper _mapper;
 
-        public TasksController(TasksRepository _repository)
+
+        public TasksController(TasksRepository repository ,IMapper mapper )
         {
-            repository = _repository;
+            _repository= repository  ;
+            _mapper = mapper;
         }
         // GET: api/[controller]
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Tasks>>> Get()
+        public async Task<ActionResult<IEnumerable<Tasks>>> GetAll()
         {
-            return await repository.GetAll();
+            var tasks = await _repository.GetAll();
+            IEnumerable<TasksViewModel> maped = _mapper.Map< IEnumerable<TasksViewModel>>(tasks);
+
+
+            return Ok(maped);
         }
 
         // GET: api/[controller]/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Tasks>> Get(int id)
         {
-            var task = await repository.Get(id);
+            var task = await _repository.Get(id);
             if (task == null)
             {
                 return NotFound();
             }
-            return task;
+            TasksViewModel maped = _mapper.Map<TasksViewModel>(task);
+
+            return Ok(maped);
+        
         }
 
         // PUT: api/[controller]/5
-        [HttpPut("{id}")]
-        public async Task<IActionResult> Put(int id, Tasks movie)
+        [HttpPut]
+        public async Task<IActionResult> Put(Tasks task)
         {
-            if (id != movie.TaskId)
+
+            var updatedTask = await _repository.Update(task);
+            if (updatedTask == null)
             {
-                return BadRequest();
+                return NotFound();
             }
-            await repository.Update(movie);
-            return NoContent();
+            TasksViewModel maped = _mapper.Map<TasksViewModel>(task);
+    
+            return Ok(maped);
+
+
+   
         }
 
         // POST: api/[controller]
         [HttpPost]
-        public async Task<ActionResult<Tasks>> Post(Tasks movie)
+        public async Task<ActionResult<Tasks>> Post(Tasks task)
         {
-            await repository.Add(movie);
-            return CreatedAtAction("Get", new { id = movie.TaskId }, movie);
+            await _repository.Add(task);
+
+
+            return CreatedAtAction("Get", new { id = task.TaskId }, task);
         }
 
         // DELETE: api/[controller]/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<Tasks>> Delete(int id)
         {
-            var movie = await repository.Delete(id);
-            if (movie == null)
+            var task = await _repository.Delete(id);
+            if (task == null)
             {
                 return NotFound();
             }
-            return movie;
+            return task;
         }
     }
 }

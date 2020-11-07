@@ -11,9 +11,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
-using TaskManagmentSystem.Data;
+
 using AutoMapper;
 using TaskManagmentSystem.Repository;
+using TaskManagmentSystem.Models;
+using TaskManagmentSystem.ViewModels;
 
 namespace TaskManagmentSystem
 {
@@ -31,11 +33,11 @@ namespace TaskManagmentSystem
         {
             services.AddControllers();
             services.AddAutoMapper(typeof(Startup));
-            services.AddDbContext<TaskManagmentSystemContext>(options =>
+            services.AddDbContext<TaskManagmentContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("TaskManagmentSystemContext")));
           
        
-            services.AddScoped<TasksRepository>();
+            services.AddScoped< TasksRepository >();
             services.AddControllers();
           
         }

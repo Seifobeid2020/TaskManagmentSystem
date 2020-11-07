@@ -8,11 +8,12 @@ using TaskManagmentSystem.ViewModels;
 
 namespace EntityFramwork
 {
-    public class TasksProfile : Profile
+    public class TaskManagmentSystemMappingProfile : Profile
     {
-        public TasksProfile()
+        public TaskManagmentSystemMappingProfile()
         {
             CreateMap<Tasks, TasksViewModel>();
+           
         }
     }
 }
