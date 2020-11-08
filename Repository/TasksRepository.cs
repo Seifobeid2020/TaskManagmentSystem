@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TaskManagmentSystem.Models;
+using TaskManagmentSystem.ViewModels;
 
 namespace TaskManagmentSystem.Repository
 {
@@ -53,6 +54,7 @@ namespace TaskManagmentSystem.Repository
 
         public async Task<Tasks> Update(Tasks entity)
         {
+
             Tasks task = await context.Tasks.AsNoTracking().FirstOrDefaultAsync(entry => entry.TaskId.Equals(entity.TaskId));
 
             if (task == null)

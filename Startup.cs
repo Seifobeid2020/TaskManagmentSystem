@@ -17,6 +17,7 @@ using TaskManagmentSystem.Repository;
 using TaskManagmentSystem.Models;
 using TaskManagmentSystem.ViewModels;
 
+
 namespace TaskManagmentSystem
 {
     public class Startup
@@ -31,14 +32,21 @@ namespace TaskManagmentSystem
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson(options =>
+    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+); ;
             services.AddAutoMapper(typeof(Startup));
             services.AddDbContext<TaskManagmentContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("TaskManagmentSystemContext")));
           
        
             services.AddScoped< TasksRepository >();
+            services.AddScoped<CategoriesRepository>();
+            services.AddScoped<TasksCategoriesRepository>();
+            
             services.AddControllers();
+
+          
           
         }
 

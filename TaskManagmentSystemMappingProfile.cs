@@ -12,8 +12,9 @@ namespace EntityFramwork
     {
         public TaskManagmentSystemMappingProfile()
         {
-            CreateMap<Tasks, TasksViewModel>();
-           
+            CreateMap<Tasks, TasksViewModel>().ReverseMap();
+            CreateMap<Categories, CategoriesViewModel>().ReverseMap(); 
+                CreateMap<TasksCategories, TasksCategoriesViewModel>().ReverseMap();
         }
     }
 }

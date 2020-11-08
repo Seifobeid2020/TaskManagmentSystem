@@ -64,7 +64,7 @@ namespace TaskManagmentSystem.Models
                     .HasMaxLength(500)
                     .IsUnicode(false);
             });
-
+/*
             modelBuilder.Entity<TasksCategories>(entity =>
             {
                 entity.HasNoKey();
@@ -78,7 +78,18 @@ namespace TaskManagmentSystem.Models
                     .WithMany()
                     .HasForeignKey(d => d.TaskId)
                     .HasConstraintName("FK__TasksCate__TaskI__286302EC");
-            });
+            });*/
+            modelBuilder.Entity<TasksCategories>()
+           .HasKey(e => new { e.TaskId, e.CategoryId });
+
+            modelBuilder.Entity<TasksCategories>()
+                 .HasOne(bc => bc.Task)
+        .WithMany(b => b.TasksCategories)
+        .HasForeignKey(bc => bc.TaskId);
+            modelBuilder.Entity<TasksCategories>()
+                .HasOne(bc => bc.Category)
+                .WithMany(c => c.TasksCategories)
+                .HasForeignKey(bc => bc.CategoryId);
 
             OnModelCreatingPartial(modelBuilder);
         }

@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -25,7 +26,7 @@ namespace TaskManagmentSystem.Controllers
         }
         // GET: api/[controller]
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Tasks>>> GetAll()
+        public async Task<ActionResult<IEnumerable<TasksViewModel>>> GetAll()
         {
             var tasks = await _repository.GetAll();
             IEnumerable<TasksViewModel> maped = _mapper.Map< IEnumerable<TasksViewModel>>(tasks);
@@ -36,7 +37,7 @@ namespace TaskManagmentSystem.Controllers
 
         // GET: api/[controller]/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Tasks>> Get(int id)
+        public async Task<ActionResult<TasksViewModel>> Get(int id)
         {
             var task = await _repository.Get(id);
             if (task == null)
@@ -51,17 +52,17 @@ namespace TaskManagmentSystem.Controllers
 
         // PUT: api/[controller]/5
         [HttpPut]
-        public async Task<IActionResult> Put(Tasks task)
+        public async Task<IActionResult> Put(TasksViewModel task)
         {
-
-            var updatedTask = await _repository.Update(task);
+            Tasks maped = _mapper.Map<Tasks>(task);
+            var updatedTask = await _repository.Update(maped);
             if (updatedTask == null)
             {
                 return NotFound();
             }
-            TasksViewModel maped = _mapper.Map<TasksViewModel>(task);
+           
     
-            return Ok(maped);
+            return Ok(task);
 
 
    
@@ -69,24 +70,28 @@ namespace TaskManagmentSystem.Controllers
 
         // POST: api/[controller]
         [HttpPost]
-        public async Task<ActionResult<Tasks>> Post(Tasks task)
+        public async Task<ActionResult<TasksViewModel>> Post(TasksViewModel task)
         {
-            await _repository.Add(task);
+            Tasks maped = _mapper.Map<Tasks>(task);
+           await _repository.Add(maped);
 
+         
 
-            return CreatedAtAction("Get", new { id = task.TaskId }, task);
+            return Ok(task);
+          //  return CreatedAtAction("Get", new { id = task.TaskId }, task);
         }
 
         // DELETE: api/[controller]/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Tasks>> Delete(int id)
+        public async Task<ActionResult<TasksViewModel>> Delete(int id)
         {
             var task = await _repository.Delete(id);
             if (task == null)
             {
                 return NotFound();
             }
-            return task;
+            TasksViewModel maped = _mapper.Map<TasksViewModel>(task);
+            return Ok(maped);
         }
     }
 }

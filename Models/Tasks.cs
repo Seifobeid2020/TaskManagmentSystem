@@ -6,6 +6,11 @@ namespace TaskManagmentSystem.Models
 {
     public partial class Tasks
     {
+        public Tasks()
+        {
+            TasksCategories = new HashSet<TasksCategories>();
+        }
+
         [Key]
         public int TaskId { get; set; }
         public string Subject { get; set; }
@@ -15,5 +20,8 @@ namespace TaskManagmentSystem.Models
         public DateTime? CompletedDate { get; set; }
         public bool Complete { get; set; }
         public string Importance { get; set; }
+        public virtual ICollection<TasksCategories> TasksCategories { get; set; }
+
+     
     }
 }
