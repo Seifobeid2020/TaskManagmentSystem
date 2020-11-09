@@ -25,9 +25,9 @@ namespace TaskManagmentSystem.Controllers
         }
         // GET: api/[controller]
         [HttpGet]
-        public async Task<ActionResult<List<TasksCategoriesViewModel>>> GetAll()
+        public  IActionResult GetAllTasksCategories()
         {
-            var tasks =  _repository.GetAllTasksCategories().ToList();
+            var tasks =  _repository.GetAll().Result;
          List<TasksCategoriesViewModel> maped = _mapper.Map<List<TasksCategoriesViewModel>>(tasks);
 
 
