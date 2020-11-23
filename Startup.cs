@@ -22,6 +22,7 @@ namespace TaskManagmentSystem
 {
     public class Startup
     {
+        
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -32,22 +33,50 @@ namespace TaskManagmentSystem
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers().AddNewtonsoftJson(options =>
+        /*    services.AddControllers().AddNewtonsoftJson(options =>
     options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
-); ;
+); ;*/
             services.AddAutoMapper(typeof(Startup));
             services.AddDbContext<TaskManagmentContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("TaskManagmentSystemContext")));
-          
-       
+            services.AddControllers().AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.PropertyNamingPolicy = null;
+                options.JsonSerializerOptions.DictionaryKeyPolicy = null;
+            });
+
             services.AddScoped< TasksRepository >();
             services.AddScoped<CategoriesRepository>();
             services.AddScoped<TasksCategoriesRepository>();
             
             services.AddControllers();
+           /* services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy",
+                    builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyMethod().AllowCredentials());
 
-          
-          
+            });*/
+
+
+            services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(builder =>
+                    builder.SetIsOriginAllowed(_ => true)
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .AllowCredentials());
+            });
+            /*services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy",
+                builder => builder.AllowAnyOrigin().AllowAnyMethod()
+                  
+                    .SetIsOriginAllowed((host) => true)
+                    .AllowAnyHeader()
+                                                         
+                                  );
+            });*/
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -61,7 +90,8 @@ namespace TaskManagmentSystem
             app.UseHttpsRedirection();
 
             app.UseRouting();
-
+            //app.UseCors("CorsPolicy");
+            app.UseCors();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
@@ -69,6 +99,19 @@ namespace TaskManagmentSystem
                 endpoints.MapControllers();
 
             });
+          
+            /* app.UseSpa(spa =>
+             {
+                 // To learn more about options for serving an Angular SPA from ASP.NET Core,
+                 // see https://go.microsoft.com/fwlink/?linkid=864501
+
+                 spa.Options.SourcePath = "ClientApp";
+
+                 if (env.IsDevelopment())
+                 {
+                     spa.UseAngularCliServer(npmScript: "start");
+                 }
+             });*/
         }
     }
 }
