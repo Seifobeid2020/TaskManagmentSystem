@@ -23,15 +23,26 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 import {ReactiveFormsModule} from '@angular/forms';
 import {MatNativeDateModule} from '@angular/material/core';
 
-
-
 import {MAT_FORM_FIELD_DEFAULT_OPTIONS} from '@angular/material/form-field';
+import { MainNavComponent } from './main-nav/main-nav.component';
+import { LayoutModule } from '@angular/cdk/layout';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatIconModule } from '@angular/material/icon';
+import { MatListModule } from '@angular/material/list';
+import { CategoryComponent } from './category/category.component';
+import { TasksCategoriesComponent } from './tasks-categories/tasks-categories.component';
+
 
 @NgModule({
   declarations: [
     AppComponent,
     TaskComponent,
-    DialogBoxComponent
+    DialogBoxComponent,
+    MainNavComponent,
+    CategoryComponent,
+    TasksCategoriesComponent,
+  
   ],
   imports: [
     HttpClientModule,
@@ -44,7 +55,7 @@ import {MAT_FORM_FIELD_DEFAULT_OPTIONS} from '@angular/material/form-field';
     MatInputModule,
     MatButtonModule,MatDatepickerModule,
     MatInputModule,
-    MatNativeDateModule,ReactiveFormsModule
+    MatNativeDateModule,ReactiveFormsModule, LayoutModule, MatToolbarModule, MatSidenavModule, MatIconModule, MatListModule
 
   ],
   providers: [   { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'fill' } },],

@@ -2,16 +2,70 @@
 <h1 mat-dialog-title>Row Action :: <strong>{{action}}</strong></h1>
 
 
+<!-- <p *ngIf="local_data.component == 'Category'  else Task">Show this only if "show" is true</p> -->
 
 
-<div mat-dialog-content>
+
+<div mat-dialog-content >
  
+<div *ngIf="local_data.component == 'Category'  "  >
+  <div fxLayout="row"  fxLayoutAlign="start start" fxLayoutGap="gappx"  *ngIf="action != 'Delete'; else elseTemplate">
+  <mat-form-field >
+
+    <mat-label>Add CategoryId</mat-label>
+    <input  matInput [(ngModel)]="local_data.categoryId" >
+   
+  </mat-form-field>
+
+  <mat-form-field >
+
+    <mat-label>Add CategoryName</mat-label>
+    <input  matInput [(ngModel)]="local_data.categoryName" >
+   
+  </mat-form-field>
+</div>
+<ng-template #elseTemplate>
+  Sure to delete <b>{{local_data.categoryName}}</b>?
+</ng-template>
+  </div>
+
+
+
+
+  <div *ngIf="local_data.component == 'TasksCategories'  "  >
+    <div fxLayout="row"  fxLayoutAlign="start start" fxLayoutGap="gappx"  *ngIf="action != 'Delete'; else elseTemplate">
+    <mat-form-field >
+  
+      <mat-label>Add CategoryId</mat-label>
+      <input  matInput [(ngModel)]="local_data.categoryId" >
+     
+    </mat-form-field>
+  
+    <mat-form-field >
+  
+      <mat-label>Add TaskId</mat-label>
+      <input  matInput [(ngModel)]="local_data.taskId" >
+     
+    </mat-form-field>
+  </div>
+  <ng-template #elseTemplate>
+    Sure to delete <b>{{local_data.CategoryId}}||||||</b>  <b>{{local_data.TaskId}}</b>?
+  </ng-template>
+    </div>
+  
+
+
+
+
+
+  
+ <div  *ngIf="local_data.component == 'Task' ">
   <div fxLayout="row"  fxLayoutAlign="start start" fxLayoutGap="gappx"  *ngIf="action != 'Delete'; else elseTemplate">
   
   <mat-form-field >
 
     <mat-label>Add TaskId</mat-label>
-    <input  matInput [(ngModel)]="local_data.TaskId" >
+    <input  matInput [(ngModel)]="local_data.taskId" >
    
   </mat-form-field>
 
@@ -23,7 +77,7 @@
   <mat-form-field >
 
     <mat-label>Add Subject</mat-label>
-    <input  matInput [(ngModel)]="local_data.Subject" >
+    <input  matInput [(ngModel)]="local_data.subject" >
    
   </mat-form-field>
 
@@ -31,20 +85,20 @@
   <mat-form-field >
     <mat-label>Add Complete</mat-label>
     
-    <input  matInput [(ngModel)]="local_data.Complete" >
+    <input  matInput [(ngModel)]="local_data.complete" >
    
   </mat-form-field>
   <mat-form-field >
     <mat-label>Add Importance</mat-label>
     
-    <input  matInput [(ngModel)]="local_data.Importance" >
+    <input  matInput [(ngModel)]="local_data.importance" >
    
   </mat-form-field>
 
   <mat-form-field appearance="fill">
     <mat-label>Choose a StartDate</mat-label>
     <!-- #docregion toggle -->
-    <input matInput [matDatepicker]="pickerStartDate"  [(ngModel)]="local_data.StartDate"/>
+    <input matInput [matDatepicker]="pickerStartDate"  [(ngModel)]="local_data.startDate"/>
     <mat-datepicker-toggle matSuffix [for]="pickerStartDate"></mat-datepicker-toggle>
     <mat-datepicker #pickerStartDate></mat-datepicker>
     <!-- #enddocregion toggle -->
@@ -54,7 +108,7 @@
   <mat-form-field appearance="fill">
     <mat-label>Choose a CreateTime</mat-label>
     <!-- #docregion toggle -->
-    <input matInput [matDatepicker]="pickerCreateTime"  [(ngModel)]="local_data.CreateTime"/>
+    <input matInput [matDatepicker]="pickerCreateTime"  [(ngModel)]="local_data.createTime"/>
     <mat-datepicker-toggle matSuffix [for]="pickerCreateTime"></mat-datepicker-toggle>
     <mat-datepicker #pickerCreateTime></mat-datepicker>
     <!-- #enddocregion toggle -->
@@ -64,7 +118,7 @@
   <mat-form-field appearance="fill">
     <mat-label>Choose a DueDate</mat-label>
     <!-- #docregion toggle -->
-    <input matInput [matDatepicker]="pickerDueDate" [(ngModel)]="local_data.DueDate" />
+    <input matInput [matDatepicker]="pickerDueDate" [(ngModel)]="local_data.dueDate" />
     <mat-datepicker-toggle matSuffix [for]="pickerDueDate"></mat-datepicker-toggle>
     <mat-datepicker #pickerDueDate></mat-datepicker>
     <!-- #enddocregion toggle -->
@@ -73,7 +127,7 @@
   <mat-form-field appearance="fill">
     <mat-label>Choose a CompletedDate</mat-label>
     <!-- #docregion toggle -->
-    <input matInput [matDatepicker]="pickerCompletedDate" [(ngModel)]="local_data.CompletedDate" />
+    <input matInput [matDatepicker]="pickerCompletedDate" [(ngModel)]="local_data.completedDate" />
     <mat-datepicker-toggle matSuffix [for]="pickerCompletedDate"></mat-datepicker-toggle>
     <mat-datepicker #pickerCompletedDate></mat-datepicker>
     <!-- #enddocregion toggle -->
@@ -86,11 +140,13 @@
  
 
  
-
-</div>
+  </div>
   <ng-template #elseTemplate>
-    Sure to delete <b>{{local_data.Subject}}</b>?
+    Sure to delete <b>{{local_data.subject}}</b>?
   </ng-template>
+<!-- </div> -->
+</div>
+
 </div>
 <div mat-dialog-actions>
   <button mat-button (click)="doAction()">{{action}}</button>

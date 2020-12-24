@@ -1,0 +1,31 @@
+table {
+    width: 40%;
+    margin-left: auto;
+
+    margin-right: auto;
+    
+  }
+  .mat-row:nth-child(even){
+    background-color:aliceblue;
+    }
+
+.mat-row:nth-child(odd){
+    background-color:#bbbbb6;
+    }
+#add-task-button{
+ width: 500px;
+ margin: 20px;
+ top: 50%;
+ left: 50%;
+ border-radius: 40px;
+ box-shadow: 0 0 20px #0ff;
+ 
+ background: rgb(64, 200, 252);
+ background: linear-gradient(
+   270deg,
+   rgba(64, 200, 252, 0.9976365546218487) 5%,
+   rgba(69, 75, 228, 1) 49%,
+   rgba(98, 25, 223, 1) 100%
+ );
+ transform: translate(-50%, 0%);
+}

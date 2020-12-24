@@ -49,7 +49,13 @@ namespace TaskManagmentSystem
             services.AddScoped<CategoriesRepository>();
             services.AddScoped<TasksCategoriesRepository>();
             
-            services.AddControllers();
+         //   services.AddControllers();
+
+            services.AddControllers()
+                .AddNewtonsoftJson(options =>options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore); 
+
+
+
            /* services.AddCors(options =>
             {
                 options.AddPolicy("CorsPolicy",

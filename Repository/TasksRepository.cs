@@ -10,14 +10,13 @@ namespace TaskManagmentSystem.Repository
 {
     public  class TasksRepository :ITasksRepository
 
-    /*    IRepository<TEntity>
-         where TEntity : class
-         where TContext : DbContext*/
-    {
 
+    {
+        private readonly TasksCategoriesRepository _repository;
         private readonly TaskManagmentContext context;
-        public TasksRepository(TaskManagmentContext context)
+        public TasksRepository(TaskManagmentContext context, TasksCategoriesRepository repository)
         {
+            _repository = repository;
             this.context = context;
         }
 
@@ -31,19 +30,41 @@ namespace TaskManagmentSystem.Repository
         public async Task<Tasks> Delete(int id)
         {
             var entity = await context.Set<Tasks>().FindAsync(id);
+            await _repository.Delete(null, id);
+           
+
+
             if (entity == null)
             {
                 return entity;
             }
 
             context.Set<Tasks>().Remove(entity);
-            await context.SaveChangesAsync();
+
+            try
+            {
+
+                await context.SaveChangesAsync();
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+
+
+            }
+
+
+      
 
             return entity;
         }
 
         public async Task<Tasks> Get(int id)
         {
+        
+
+
             return await context.Set<Tasks>().FindAsync(id);
         }
 
@@ -55,7 +76,7 @@ namespace TaskManagmentSystem.Repository
         public async Task<Tasks> Update(Tasks entity)
         {
 
-            Tasks task = await context.Tasks.AsNoTracking().FirstOrDefaultAsync(entry => entry.TaskId.Equals(entity.TaskId));
+         /*   Tasks task = await context.Tasks.AsNoTracking().FirstOrDefaultAsync(entry => entry.TaskId.Equals(entity.TaskId));
 
             if (task == null)
             {
@@ -65,8 +86,9 @@ namespace TaskManagmentSystem.Repository
             }
 
             //context.Entry(entity).State = EntityState.Detached;
-            context.Entry(entity).State = EntityState.Modified;
+            context.Entry(entity).State = EntityState.Modified;*/
 
+            context.Tasks.Update(entity);
 
             await context.SaveChangesAsync();
             return entity;

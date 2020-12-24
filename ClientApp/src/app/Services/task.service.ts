@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 
-import { Task } from './Models/Task';
+import { Task } from '../Models/Task';
 
 
 @Injectable({
@@ -21,6 +21,7 @@ export class TaskService {
     this.http.get(`${this.rootURL}/tasks`)
       .toPromise()
       .then(res => this.list = res as Task[]);
+      console.log(this.list)
 
   }
   postTask(formData:Task) {

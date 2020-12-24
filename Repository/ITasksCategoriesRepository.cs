@@ -8,5 +8,7 @@ namespace TaskManagmentSystem.Repository
 {
     interface ITasksCategoriesRepository:IRepository<TasksCategories>
     {
+        Task<List<TasksCategories>> Delete(int? CategoryId, int? TaskId);
+        Task<TasksCategories> Update(int CategoryId, int TaskId, TasksCategories entity);
     }
 }

@@ -1,6 +1,6 @@
 import { Component, OnInit,ViewChild } from '@angular/core';
 
-import { TaskService } from '../task.service';
+import { TaskService } from '../Services/task.service';
 
 import { MatTable } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
@@ -12,8 +12,9 @@ import { DialogBoxComponent } from '../dialog-box/dialog-box.component'
   styleUrls: ['./task.component.css']
 })
 export class TaskComponent implements OnInit {
-  displayedColumns: string[] = ['TaskId', 'Subject', 'CreateTime','StartDate','DueDate', 'CompletedDate','Complete', 'Importance','action'];
- 
+  displayedColumns: string[] = ['taskId', 'subject', 'createTime','startDate','dueDate', 'completedDate','complete', 'importance','action'];
+  //displayedColumns: string[] = ['TaskId', 'Subject', 'CreateTime','StartDate','DueDate', 'CompletedDate','Complete', 'Importance','action'];
+
   constructor(public taskService:TaskService,public dialog: MatDialog) { }
  
   ngOnInit(): void {
@@ -30,6 +31,7 @@ export class TaskComponent implements OnInit {
 
   openDialog(action,obj) {
     obj.action = action;
+    obj.component = "Task";
     const dialogRef = this.dialog.open(DialogBoxComponent, {
       width: '500px',
       data:obj,
@@ -45,7 +47,7 @@ export class TaskComponent implements OnInit {
         this.updateRowData(result.data);
      
       }else if(result.event == 'Delete'){
-        this.deleteRowData(result.data.TaskId);
+        this.deleteRowData(result.data.taskId);
       }
     });
   }
@@ -54,14 +56,14 @@ export class TaskComponent implements OnInit {
    
     this.taskService.postTask({
       
-      TaskId : parseInt(row_obj.TaskId),
-      Subject: row_obj.Subject,
-      CreateTime: row_obj.CreateTime ,
-      StartDate: row_obj.StartDate ,
-      DueDate: row_obj.DueDate ,
-      CompletedDate: row_obj.CompletedDate ,
-      Complete: Boolean(JSON.parse(row_obj.Complete)),
-      Importance: row_obj.Importance,
+      taskId : parseInt(row_obj.taskId),
+      subject: row_obj.subject,
+      createTime: row_obj.createTime ,
+      startDate: row_obj.startDate ,
+      dueDate: row_obj.dueDate ,
+      completedDate: row_obj.completedDate ,
+      complete: Boolean(JSON.parse(row_obj.complete)),
+      importance: row_obj.importance,
 
 
 

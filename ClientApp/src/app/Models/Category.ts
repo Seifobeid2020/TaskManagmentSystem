@@ -1,5 +1,5 @@
-export class Category {
-    categoryId: number;
-    categoryName: string;
+export interface Category {
+  categoryId: number;
+  categoryName: string;
   }
   

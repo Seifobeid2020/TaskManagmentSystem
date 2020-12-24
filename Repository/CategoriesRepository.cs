@@ -9,10 +9,11 @@ namespace TaskManagmentSystem.Repository
 {
     public class CategoriesRepository : ICategoriesRepository
     {
-
+        private readonly TasksCategoriesRepository _repository;
         private readonly TaskManagmentContext context;
-        public CategoriesRepository(TaskManagmentContext context)
+        public CategoriesRepository(TaskManagmentContext context, TasksCategoriesRepository repository)
         {
+            _repository = repository;
             this.context = context;
         }
 
@@ -26,13 +27,29 @@ namespace TaskManagmentSystem.Repository
         public async Task<Categories> Delete(int id)
         {
             var entity = await context.Set<Categories>().FindAsync(id);
+            await _repository.Delete(id, null);
+        
             if (entity == null)
             {
                 return entity;
             }
 
             context.Set<Categories>().Remove(entity);
-            await context.SaveChangesAsync();
+
+            try
+            {
+
+                await context.SaveChangesAsync();
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            
+
+            }
+
+         
 
             return entity;
         }
@@ -54,15 +71,7 @@ namespace TaskManagmentSystem.Repository
 
             context.Categories.Update(entity);
 
-        /*    if (category == null)
-            {
-
-                return null;
-
-            }
-*/
-            //context.Entry(entity).State = EntityState.Detached;
-           // context.Entry(entity).State = EntityState.Modified;
+ 
 
 
             await context.SaveChangesAsync();

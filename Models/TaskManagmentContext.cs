@@ -24,11 +24,14 @@ namespace TaskManagmentSystem.Models
             if (!optionsBuilder.IsConfigured)
             {
                 optionsBuilder.UseSqlServer("Server=.;Database=TaskManagment;Trusted_Connection=True;");
+
             }
+           
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+           
             modelBuilder.Entity<Categories>(entity =>
             {
                 entity.HasKey(e => e.CategoryId)
@@ -84,8 +87,8 @@ namespace TaskManagmentSystem.Models
 
             modelBuilder.Entity<TasksCategories>()
                  .HasOne(bc => bc.Task)
-        .WithMany(b => b.TasksCategories)
-        .HasForeignKey(bc => bc.TaskId);
+                 .WithMany(b => b.TasksCategories)
+                 .HasForeignKey(bc => bc.TaskId);
             modelBuilder.Entity<TasksCategories>()
                 .HasOne(bc => bc.Category)
                 .WithMany(c => c.TasksCategories)

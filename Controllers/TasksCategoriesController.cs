@@ -34,7 +34,55 @@ namespace TaskManagmentSystem.Controllers
             return  Ok(maped);
         }
 
-       
+        // POST: api/[controller]
+        [HttpPost]
+        public async Task<ActionResult<TasksCategoriesViewModel>> Post(TasksCategoriesViewModel entity)
+        {
+            TasksCategories maped = _mapper.Map<TasksCategories>(entity);
+            await _repository.Add(maped);
+
+
+
+            return Ok(entity);
+
+        }
+
+
+
+
+        // DELETE: api/[controller]/1/1
+          [HttpDelete("{categoryId}/{taskId}")]
+        public async Task<ActionResult<TasksCategoriesViewModel>> Delete( int categoryId ,int taskId)
+        {
         
+            var task = await _repository.Delete(categoryId, taskId);
+            if (task == null)
+            {
+                return NotFound();
+            }
+            List<TasksCategoriesViewModel> maped = _mapper.Map<List<TasksCategoriesViewModel>>(task);
+       
+            return Ok(maped);
+        }
+
+        // PUT: api/[controller]/5
+        [HttpPut("{categoryId}/{taskId}")]
+        public async Task<IActionResult> Put(int categoryId, int taskId, TasksCategoriesViewModel entity)
+        {
+            TasksCategories maped = _mapper.Map<TasksCategories>(entity);
+            var updatedTask = await _repository.Update(categoryId, taskId, maped);
+
+            if (updatedTask == null)
+            {
+                return NotFound();
+            }
+
+
+            return Ok(entity);
+
+
+
+        }
+
     }
 }
