@@ -1,22 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
-
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using AutoMapper;
 using TaskManagmentSystem.Repository;
 using TaskManagmentSystem.Models;
-using TaskManagmentSystem.ViewModels;
-
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace TaskManagmentSystem
 {
@@ -45,11 +38,33 @@ namespace TaskManagmentSystem
                 options.JsonSerializerOptions.DictionaryKeyPolicy = null;
             });
 
-            services.AddScoped< TasksRepository >();
+            services.AddScoped<TasksRepository>();
             services.AddScoped<CategoriesRepository>();
             services.AddScoped<TasksCategoriesRepository>();
-            
-         //   services.AddControllers();
+
+
+
+
+
+            services.AddAuthentication(opt => {
+                opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+                                      .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = "http://localhost:5000",
+            ValidAudience = "http://localhost:5000",
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("superSecretKey@345"))
+        };
+    });
+
+            //   services.AddControllers();
 
             services.AddControllers()
                 .AddNewtonsoftJson(options =>options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore); 
@@ -98,6 +113,7 @@ namespace TaskManagmentSystem
             app.UseRouting();
             //app.UseCors("CorsPolicy");
             app.UseCors();
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

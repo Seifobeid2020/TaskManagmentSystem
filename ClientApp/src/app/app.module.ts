@@ -1,12 +1,13 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+//import { AuthGuard } from './guards/auth-guard.service';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { TaskComponent } from './task/task.component';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
+import { JwtModule } from "@auth0/angular-jwt";
 
 import { FormsModule } from '@angular/forms';
 
@@ -32,7 +33,18 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { CategoryComponent } from './category/category.component';
 import { TasksCategoriesComponent } from './tasks-categories/tasks-categories.component';
+import { LoginComponent } from './login/login.component';
+import { AuthGuard } from './auth.guard';
+import {
+  MatCardModule
 
+} from '@angular/material/card';
+
+
+
+export function tokenGetter() {
+  return localStorage.getItem("jwt");
+}
 
 @NgModule({
   declarations: [
@@ -42,6 +54,7 @@ import { TasksCategoriesComponent } from './tasks-categories/tasks-categories.co
     MainNavComponent,
     CategoryComponent,
     TasksCategoriesComponent,
+    LoginComponent,
   
   ],
   imports: [
@@ -55,10 +68,17 @@ import { TasksCategoriesComponent } from './tasks-categories/tasks-categories.co
     MatInputModule,
     MatButtonModule,MatDatepickerModule,
     MatInputModule,
-    MatNativeDateModule,ReactiveFormsModule, LayoutModule, MatToolbarModule, MatSidenavModule, MatIconModule, MatListModule
-
+    MatNativeDateModule,ReactiveFormsModule, LayoutModule, MatToolbarModule, MatSidenavModule, MatIconModule, MatListModule,MatCardModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: tokenGetter,
+        whitelistedDomains: ["localhost:44381"],
+        blacklistedRoutes: []
+      }
+    })
+  
   ],
-  providers: [   { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'fill' } },],
+  providers: [   { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'fill' } },[AuthGuard]],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

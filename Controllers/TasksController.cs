@@ -1,5 +1,6 @@
 ﻿
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -25,7 +26,7 @@ namespace TaskManagmentSystem.Controllers
             _mapper = mapper;
         }
         // GET: api/[controller]
-        [HttpGet]
+        [HttpGet, Authorize]
         public async Task<ActionResult<IEnumerable<TasksViewModel>>> GetAll()
         {
             var tasks = await _repository.GetAll();

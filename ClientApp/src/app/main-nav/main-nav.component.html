@@ -25,9 +25,11 @@
       </button>
       <span>ClientApp</span>
       <span class="spacer"></span>
-      <a  routerLink="/Tasks">Tasks</a>
-      <a  routerLink="/Categories">Categories</a>
-      <a  routerLink="/TasksCategories">Tasks Categories</a>
+      <a *ngIf="isUserAuthenticated()" routerLink="/Tasks">Tasks</a>
+      <a *ngIf="isUserAuthenticated()" routerLink="/Categories">Categories</a>
+      <a *ngIf="isUserAuthenticated()" routerLink="/TasksCategories">Tasks Categories</a>
+      <a *ngIf="!isUserAuthenticated()" routerLink="/login">Login</a>
+      <a *ngIf="isUserAuthenticated()" class="logout" (click)="logOut()">Logout</a>
     </mat-toolbar>
     <!-- Add Content Here -->
     <ng-component></ng-component>
